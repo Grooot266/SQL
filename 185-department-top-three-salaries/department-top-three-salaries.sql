@@ -1,12 +1,10 @@
--- Grooot266
 /* Write your T-SQL query statement below */
-SELECT D.name AS Department, E.name AS Employee ,E.salary AS Salary 
-FROM (
-    SELECT * , DENSE_RANK () OVER (
-        PARTITION BY departmentId ORDER BY salary DESC
-    ) AS rk_sal
-    FROM Employee
-) AS E
-LEFT JOIN Department AS D ON E.departmentId = D.id
-
-WHERE E.rk_sal <= 3
+SELECT DEP.name AS Department, EMP.name  AS Employee, Emp.salary AS Salary
+FROM (  
+    SELECT *, DENSE_RANK() OVER(
+        PARTITION BY  departmentId
+        ORDER BY salary DESC
+    ) AS rnk
+FROM Employee ) AS EMP
+LEFT JOIN Department AS DEP ON EMP.departmentId = DEP.id 
+WHERE EMP.rnk <= 3
